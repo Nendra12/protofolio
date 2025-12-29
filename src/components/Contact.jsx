@@ -1,28 +1,18 @@
 import SplitText from "@/components/SplitText";
 
-const handleAnimationComplete = () => {
-    console.log('All letters have animated!');
-}   
 
 export default function Contact() {
+    const handleAnimationComplete = () => {
+        console.log('All letters have animated!');
+    }   
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 min-h-screen border-t border-purple-500/20 py-20">
-            <SplitText
-                text="Contact Me"
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-white"
-                delay={50}
-                duration={0.5}
-                ease="power3.out"
-                splitType="chars"
-                from={{ opacity: 0, y: 40 }}
-                to={{ opacity: 1, y: 0 }}
-                threshold={0.1}
-                rootMargin="-100px"
-                textAlign="center"
-                onLetterAnimationComplete={handleAnimationComplete}
-            />
-            <p className="text-gray-400 mb-12 text-lg">Feel free to reach out to me!</p>
-            
+            <div className="w-full max-w-4xl mx-auto sm:text-center sm:px-8 mb-16">
+                <h2 id="contact" className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 scroll-mt-24">
+                    Contact Me
+                </h2>
+                <p className="text-gray-400 mb-12 text-lg">Feel free to reach out to me!</p>
+            </div>
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
                 {/* Form Section - Left (shows second on mobile, first on desktop) */}
                 <div className="w-full lg:w-1/2 order-2 lg:order-1">

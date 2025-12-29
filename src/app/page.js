@@ -17,6 +17,7 @@ export default function Home() {
   const [showNav, setShowNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [scrollTimeout, setScrollTimeout] = useState(null);
+  const [isDesktop, setIsDesktop] = useState(false);
   const lenisRef = useRef(null);
 
   // Lenis Smooth Scroll
@@ -44,6 +45,31 @@ export default function Home() {
       }
 
       requestAnimationFrame(raf);
+
+      // Handle smooth scroll for anchor links
+      const handleAnchorClick = (e) => {
+        const target = e.target.closest('a');
+        if (!target) return;
+        
+        const href = target.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const targetElement = document.querySelector(href);
+          if (targetElement) {
+            lenis.scrollTo(targetElement, {
+              offset: -100, // Offset for navbar
+              duration: 1.5,
+              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+            });
+          }
+        }
+      };
+
+      document.addEventListener('click', handleAnchorClick);
+
+      return () => {
+        document.removeEventListener('click', handleAnchorClick);
+      };
     };
 
     loadLenis();
@@ -88,23 +114,42 @@ export default function Home() {
     };
   }, [lastScrollY, scrollTimeout]);
 
+  // Check if device is desktop
+  useEffect(() => {
+    const checkIsDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+
+    return () => window.removeEventListener('resize', checkIsDesktop);
+  }, []);
+
   const items = [
     {
       label: "About",
       bgColor: "#0D0716",
       textColor: "#fff",
       links: [
-        { label: "Company", ariaLabel: "About Company" },
-        { label: "Careers", ariaLabel: "About Careers" }
+        { label: "About Me", href: "#about", ariaLabel: "About Me" }
+      ]
+    },
+    {
+      label: "Skills",
+      bgColor: "#170D27",
+      textColor: "#fff",
+      links: [
+        { label: "Hard Skills", href: "#hard-skills", ariaLabel: "Hard Skills" },
+        { label: "Soft Skills", href: "#soft-skills", ariaLabel: "Soft Skills" }
       ]
     },
     {
       label: "Projects", 
-      bgColor: "#170D27",
+      bgColor: "#1E0D27",
       textColor: "#fff",
       links: [
-        { label: "Featured", ariaLabel: "Featured Projects" },
-        { label: "Case Studies", ariaLabel: "Project Case Studies" }
+        { label: "My Projects", href: "#projects", ariaLabel: "My Projects" }
       ]
     },
     {
@@ -112,9 +157,7 @@ export default function Home() {
       bgColor: "#271E37", 
       textColor: "#fff",
       links: [
-        { label: "Email", ariaLabel: "Email us" },
-        { label: "Twitter", ariaLabel: "Twitter" },
-        { label: "LinkedIn", ariaLabel: "LinkedIn" }
+        { label: "Contact Me", href: "#contact", ariaLabel: "Contact Me" }
       ]
     }
   ];
@@ -125,23 +168,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen overflow-hidden relative w-full">
-      <NeonCursor />
-      <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
-        <LightPillar
-          topColor="#5227FF"
-          bottomColor="#FF9FFC"
-          intensity={1.0}
-          rotationSpeed={0.3}
-          glowAmount={0.005}
-          pillarWidth={3.0}
-          pillarHeight={0.4}
-          noiseIntensity={0.5}
-          pillarRotation={0}
-          interactive={false}
-          mixBlendMode="screen"
-        />
-      </div>
-      <div className="relative z-10">
+      {isDesktop && <NeonCursor />}
+      <div className="relative z-10" style={{ backgroundColor: "#0a0a0a" }}>
         <div 
           className={`fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-purple-500/20 transition-all ${
             showNav 
@@ -154,7 +182,7 @@ export default function Home() {
               logo="/logo.png"
               logoAlt="My Logo"
               items={items}
-              baseColor="#fff"
+              baseColor="#0a0a0a"
               menuColor="#fff"
               buttonBgColor="#111"
               buttonTextColor="#fff"
@@ -162,7 +190,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" style={{ background: "radial-gradient(circle,rgba(221, 0, 255, 1) 0%, rgba(10, 10, 10, 1) 36%, rgba(10, 10, 10, 1) 100%)" }}>
           <div className="pt-24 grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-7rem)]"> 
             <div className="lg:col-span-6 flex items-center justify-center min-h-[400px] lg:h-screen py-4 lg:py-0 order-1 lg:order-2 mt-16 lg:mt-0">
               <div className="relative scale-75 sm:scale-90 lg:scale-100">
@@ -175,14 +203,14 @@ export default function Home() {
                        maskComposite: 'exclude'
                      }}>
                 </div>
-                <div className="absolute -bottom-12 -left-12 z-10">
+                {/* <div className="absolute -bottom-12 -left-12 z-10">
                   <CircularText
                     text="Contact ** m e ** "
                     onHover="speedUp"
                     spinDuration={15}
                     className="w-[118px] h-[118px]"
                   />
-                </div>
+                </div> */}
                 <TiltedCard
                   imageSrc="/profile.jpg"
                   altText="Danendra Mahardhika"
@@ -200,8 +228,8 @@ export default function Home() {
               </div>
             </div> 
             
-            <div className="lg:col-span-6 flex flex-col items-start justify-center gap-4 px-4 sm:px-6 lg:px-8 py-4 lg:py-0 order-2 lg:order-1">
-              <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-bold">Hi, I'm <PointerHighlight>Danendra Mahardhika.</PointerHighlight></h1>
+            <div className="lg:col-span-6 flex flex-col items-start justify-center gap-4 sm:px-6 lg:px-8 py-4 lg:py-0 order-2 lg:order-1">
+              <h1 id="about" className="text-white text-3xl sm:text-4xl lg:text-5xl font-bold scroll-mt-24">Hi, I'm <PointerHighlight>Danendra Mahardhika.</PointerHighlight></h1>
               <p className="text-base sm:text-lg leading-relaxed max-w-lg">
                 <span className="text-white">
                   A passionate
@@ -236,7 +264,7 @@ export default function Home() {
                 My Resume
               </Link>
 
-              <div className="flex flex-wrap items-center gap-4 sm:gap-7 py-4 text-xs uppercase tracking-widest text-gray-300 group">
+              <div className="flex flex-wrap items-center gap-4 py-4 sm:gap-7 sm:text-xs text-[10px] uppercase tracking-widest text-gray-300 group">
                 <a
                   href="linkedin.com/in/nendra12"
                   target="_blank"
@@ -336,21 +364,10 @@ export default function Home() {
           
           {/* Skills and Tech Stack Section */}
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 min-h-screen">
-            <div className="w-full max-w-4xl mx-auto text-center px-8 mb-16">
-              <SplitText
-                text="Hard Skills & Tech Stack"
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-white"
-                delay={50}
-                duration={0.5}
-                ease="power3.out"
-                splitType="chars"
-                from={{ opacity: 0, y: 40 }}
-                to={{ opacity: 1, y: 0 }}
-                threshold={0.1}
-                rootMargin="-100px"
-                textAlign="center"
-                onLetterAnimationComplete={handleAnimationComplete}
-              />
+            <div className="w-full max-w-4xl mx-auto sm:text-center sm:px-8 mb-16">
+              <h2 id="hard-skills" className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 scroll-mt-24">
+                Hard Skill & Tech Stack
+              </h2>
               <p className="text-gray-400 mt-6 text-lg">Technologies and tools I use to build web projects</p>
             </div>
 
@@ -358,7 +375,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
               
               {/* Frontend Development */}
-              <div className="group bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/40 transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/20 hover:-translate-y-1">
+              <div className="group bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -385,7 +402,7 @@ export default function Home() {
               </div>
 
               {/* Backend Development */}
-              <div className="group bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/40 transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/20 hover:-translate-y-1">
+              <div className="group bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -411,7 +428,7 @@ export default function Home() {
               </div>
 
               {/* Machine Learning & Data Science */}
-              <div className="group bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/40 transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/20 hover:-translate-y-1">
+              <div className="group bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -437,7 +454,7 @@ export default function Home() {
               </div>
 
               {/* Database */}
-              <div className="group bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/40 transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/20 hover:-translate-y-1">
+              <div className="group bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -460,7 +477,7 @@ export default function Home() {
               </div>
 
               {/* Tools & Workflow - Full Width */}
-              <div className="group md:col-span-2 bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/40 transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/20 hover:-translate-y-1">
+              <div className="group md:col-span-2 bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -490,7 +507,6 @@ export default function Home() {
 
             </div>
           </div>
-          
           {/* Soft Skills Section */}
           <SoftSkills />
 

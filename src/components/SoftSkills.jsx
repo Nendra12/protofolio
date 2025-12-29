@@ -11,12 +11,12 @@ export default function SoftSkills() {
   const [hasAnimated, setHasAnimated] = useState(false);
 
   const skills = [
-    { name: 'Communication', percentage: 75 },
+    { name: 'Communication', percentage: 70 },
     { name: 'Leadership', percentage: 60 },
-    { name: 'Teamwork', percentage: 85 },
-    { name: 'Flexibility', percentage: 75 },
+    { name: 'Teamwork', percentage: 75 },
+    { name: 'Flexibility', percentage: 70 },
     { name: 'Problem Solving', percentage: 80 },
-    { name: 'Time Management', percentage: 70 }
+    { name: 'Time Management', percentage: 65 }
   ];
 
   const handleAnimationComplete = () => {
@@ -55,21 +55,10 @@ export default function SoftSkills() {
 
   return (
     <div ref={containerRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 border-t border-purple-500/20 py-20">
-      <div className="w-full max-w-4xl mx-auto mb-16 text-center">
-        <SplitText
-            text="Soft Skills"
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white"
-            delay={50}
-            duration={0.5}
-            ease="power3.out"
-            splitType="chars"
-            from={{ opacity: 0, y: 40 }}
-            to={{ opacity: 1, y: 0 }}
-            threshold={0.1}
-            rootMargin="-100px"
-            textAlign="center"
-            onLetterAnimationComplete={handleAnimationComplete}
-        />
+      <div className="w-full max-w-4xl mx-auto sm:text-center sm:px-8 mb-16">
+        <h2 id="soft-skills" className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 scroll-mt-24">
+            Soft Skill
+        </h2>
         <p className="text-gray-400 mt-6 text-lg">
           Personal qualities that help me work effectively with others
         </p>

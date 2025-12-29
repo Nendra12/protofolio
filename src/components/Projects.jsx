@@ -1,7 +1,12 @@
 'use client';
 import Image from 'next/image';
+import SplitText from './SplitText';
 
 export default function Projects() {
+  const handleAnimationComplete = () => {
+      console.log('All letters have animated!');
+  }   
+
   const projects = [
     {
       id: 1,
@@ -88,8 +93,8 @@ export default function Projects() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 border-t border-purple-500/20 py-20">
-      <div className="w-full max-w-4xl mx-auto mb-16 text-center">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
+      <div className="w-full max-w-4xl mx-auto sm:text-center sm:px-8 mb-16">
+        <h2 id="projects" className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 scroll-mt-24">
           My Projects
         </h2>
         <p className="text-gray-400 text-lg">
