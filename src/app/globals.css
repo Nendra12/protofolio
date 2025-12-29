@@ -8,7 +8,26 @@
   }
 }
 
+/* Scrollbar Styling */
+/* ::-webkit-scrollbar {
+  cursor: pointer;
+}
 
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+} */
+
+::-webkit-scrollbar-thumb {
+  background: purple;
+  border-radius: 6px;
+  border: 2px solid #0a0a0a;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: 20px;
+  scrollbar-color: purple #0a0a0a;
+}
 
 @layer base {
   :root {
@@ -74,5 +93,56 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+    width: 100%;
+  }
+  html {
+    overflow-x: hidden;
+    width: 100%;
   }
 }
+
+/* Marquee Animation */
+.marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  animation: scroll-left 30s linear infinite;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* html::-webkit-scrollbar-track {
+  background: black;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+} */

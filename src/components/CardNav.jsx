@@ -155,7 +155,7 @@ const CardNav = ({
             overflow-hidden 
             will-change-[height]
             backdrop-blur-xl
-            bg-slate-100/15
+            bg-slate-100/30
             text-white
           `}>
         <div
