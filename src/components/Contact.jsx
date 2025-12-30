@@ -1,10 +1,50 @@
 import SplitText from "@/components/SplitText";
-
+import { error } from "three";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function Contact() {
-    const handleAnimationComplete = () => {
-        console.log('All letters have animated!');
-    }   
+    const Swal = require('sweetalert2')
+
+    const [loading, setLoading] = useState(false);
+    const [fullname, setFullname] = useState("");
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fullname, email, message }),
+            });
+
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data?.error || "Request failed");
+
+            Swal.fire({
+                title: "Pesan berhasil di kirim",
+                icon: "success",
+                draggable: true
+            });
+            setFullname(""); setEmail(""); setMessage("");
+        } catch (err) {
+            // console.log(err)
+            // alert(err.message || "Gagal mengirim pesan");
+            Swal.fire({
+                icon: "error",
+                title: "Gagal mengirim pesan",
+                text: err.message,
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
     return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 min-h-screen border-t border-purple-500/20 py-20">
             <div className="w-full max-w-4xl mx-auto sm:text-center sm:px-8 mb-16">
@@ -16,7 +56,7 @@ export default function Contact() {
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
                 {/* Form Section - Left (shows second on mobile, first on desktop) */}
                 <div className="w-full lg:w-1/2 order-2 lg:order-1">
-                    <form className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Full Name */}
                         <div>
                             <label htmlFor="fullName" className="block text-white text-sm font-medium mb-2">
@@ -25,9 +65,10 @@ export default function Contact() {
                             <input
                                 type="text"
                                 id="fullName"
-                                name="fullName"
+                                name="fullname"
                                 className="w-full px-4 py-3 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500 transition-all"
-                                required
+                                onChange={(e) => setFullname(e.target.value)}
+                                value={fullname}
                             />
                         </div>
 
@@ -41,7 +82,8 @@ export default function Contact() {
                                 id="email"
                                 name="email"
                                 className="w-full px-4 py-3 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500 transition-all"
-                                required
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
                             />
                         </div>
 
@@ -55,7 +97,8 @@ export default function Contact() {
                             name="message"
                             rows="5"
                             className="w-full px-4 py-3 bg-white/5 border border-purple-500/20 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500 transition-all resize-none"
-                            required
+                            onChange={(e) => setMessage(e.target.value)}
+                            value={message}
                             ></textarea>
                         </div>
 
@@ -64,7 +107,7 @@ export default function Contact() {
                             type="submit"
                             className="w-[150px] bg-white h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer relative overflow-hidden transition-all duration-500 ease-in-out shadow-md hover:scale-105 hover:shadow-lg before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-[#5227FF] before:to-[#FF9FFC] before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-xl hover:before:left-0 text-black hover:text-white font-semibold"
                         >
-                            Send Message
+                             {loading ? "Sending..." : "Send Message"}
                         </button>
                     </form>
                 </div>
