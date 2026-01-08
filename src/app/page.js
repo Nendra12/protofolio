@@ -493,8 +493,7 @@ export default function Home() {
                     { name: 'GitHub', icon: 'devicon-github-original' },
                     { name: 'VS Code', icon: 'devicon-vscode-plain colored' },
                     { name: 'Figma', icon: 'devicon-figma-plain colored' },
-                    { name: 'Insomnia', icon: 'devicon-insomnia-plain colored' },
-                    { name: 'Docker', icon: 'devicon-docker-plain colored' },
+                    { name: 'Postman', icon: 'devicon-postman-plain colored' },
                     { name: 'npm', icon: 'devicon-npm-original-wordmark colored' }
                   ].map((tech, idx) => (
                     <span key={idx} className="px-3 py-1.5 bg-purple-500/10 text-purple-300 rounded-lg text-sm border border-purple-500/20 hover:border-purple-500/40 transition-colors flex items-center gap-1.5">

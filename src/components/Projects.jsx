@@ -10,6 +10,17 @@ export default function Projects() {
   const projects = [
     {
       id: 1,
+      title: 'Game Store',
+      description: 'Game Store is a modern web-based game storefront where users can browse, explore, and view a curated catalog of games with clear pricing and details, designed with an intuitive interface for a seamless gaming shopping experience.',
+      image: '/p0.jpg',
+      tags: ['React', "Swiper", "Bootstrap"],
+      liveUrl: '#',
+      githubUrl: 'https://github.com/Nendra12/game_store.git',
+      linkDemo: 'https://nendra-game-store.vercel.app/',
+      bg: '#192342'
+    },
+    {
+      id: 2,
       title: 'Fixpoint',
       description: 'A Laravel-based building materials e-commerce platform that allows users to browse, purchase, and manage construction material products online.',
       image: '/p1.png',
@@ -19,7 +30,7 @@ export default function Projects() {
       bg: '#FF923D'
     },
     {
-      id: 2,
+      id: 3,
       title: 'GPX Store',
       description: 'A Laravel-based e-commerce platform that allows users to browse, purchase, and manage products online.',
       image: '/p2.png',
@@ -29,7 +40,7 @@ export default function Projects() {
       bg: '#575DFF'
     },
     {
-      id: 3,
+      id: 4,
       title: 'On The Sport',
       description: 'Sports News Website.',
       image: '/p3.png',
@@ -39,7 +50,7 @@ export default function Projects() {
       bg: '#CC3535'
     },
     {
-      id: 4,
+      id: 5,
       title: 'Cari Kost',
       description: 'A web platform that helps users search and discover available boarding houses near the Universitas Trunojoyo Madura campus, with details on location, facilities, and contact information.',
       image: '/p4.jpg',
@@ -49,7 +60,7 @@ export default function Projects() {
       bg: '#B58267'
     },
     {
-      id: 5,
+      id: 6,
       title: 'Cashier Management Application Desktop',
       description: 'A desktop-based application that assists cashiers in managing customer orders, processing transactions, and handling daily sales operations.',
       image: '/p5.jpg',
@@ -60,7 +71,7 @@ export default function Projects() {
 
     },
     {
-      id: 6,
+      id: 7,
       title: 'Sharjah Museum of Islamic Civilization',
       description: 'A tourism website that presents detailed information about the Sharjah Museum of Islamic Civilization, including its history, exhibitions, and visitor information.',
       image: '/p7.jpg',
@@ -70,7 +81,7 @@ export default function Projects() {
       bg: '#71BD44'
     },
     {
-      id: 7,
+      id: 8,
       title: 'Indo Waroeng Prasmanan (IWP)',
       description: 'A culinary website for Indo Waroeng Prasmanan that showcases its buffet (prasmanan) concept and provides features such as table reservations, catering services, and menu information.',
       image: '/p6.jpg',
@@ -80,7 +91,7 @@ export default function Projects() {
       bg: '#FAD746'
     },
     {
-      id: 8,
+      id: 9,
       title: 'Ular Tangga Game',
       description: 'A Snakes and Ladders game that can switch between 2D and 3D modes.',
       image: '/p8.jpg',
@@ -148,6 +159,19 @@ export default function Projects() {
           </div>
             
             <div className="flex gap-3 px-6 pb-6">
+              {project.linkDemo && (
+                <a
+                  href={project.linkDemo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-2 bg-purple-500/10 text-purple-300 rounded-lg border border-purple-500/20 hover:border-purple-500/40 hover:bg-purple-500/20 transition-all duration-300 hover:scale-105"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                  <span className="text-sm font-medium">Demo</span>
+                </a>
+              )}
               <a
                 href={project.githubUrl}
                 target="_blank"
