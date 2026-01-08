@@ -518,7 +518,7 @@ export default function Home() {
           <footer className="border-t border-purple-500/20 py-8 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <p className="text-center text-gray-400 text-sm">
-                © 2025 Danendra Mahardhika. All rights reserved.
+                © Copyright 2025 - 2026 by Danendra Mahardhika.
               </p>
             </div>
           </footer>
